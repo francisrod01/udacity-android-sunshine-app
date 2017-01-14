@@ -146,10 +146,10 @@ public class ForecastFragment extends Fragment {
                 }
                 forecastJsonStr = buffer.toString();
 
-                Log.d("DEBUG", "forecastJsonStr =======");
-                Log.d("DEBUG", forecastJsonStr);
+                Log.d(LOG_TAG, "forecastJsonStr =======");
+                Log.d(LOG_TAG, forecastJsonStr);
             } catch (IOException e) {
-                Log.e("ForecastFragment", "Error", e);
+                Log.e(LOG_TAG, "Error", e);
                 // If the code didn't successfully get the weather data, there's no point
                 // in attempting to parse it.
                 return null;
@@ -161,7 +161,7 @@ public class ForecastFragment extends Fragment {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.e("ForecastFragment", "Error closing stream", e);
+                        Log.e(LOG_TAG, "Error closing stream", e);
                     }
                 }
             }
