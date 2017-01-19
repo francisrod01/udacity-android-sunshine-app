@@ -8,4 +8,5 @@
 
     <!-- Titles of activities -->
     <string name="title_activity_detail">Details</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>
