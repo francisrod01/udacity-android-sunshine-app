@@ -31,6 +31,8 @@ public class SettingsActivity extends PreferenceActivity
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes
         bindPreferenceSymmaryToValue(findPreference(getString(R.string.pref_location_key)));
+
+        bindPreferenceSymmaryToValue(findPreference(getString(R.string.pref_units_key)));
     }
 
     /**
