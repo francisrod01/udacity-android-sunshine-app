@@ -11,7 +11,7 @@ import android.widget.TextView;
 /**
  * Created by Francis Rodrigues on 3/12/17.
  *
- *{@link ForecastAdapter} exposes a list of weather forecasts
+ * {@link ForecastAdapter} exposes a list of weather forecasts
  * from a {@link android.database.Cursor} to a {@link android.widget.ListView}.
  */
 public class ForecastAdapter extends CursorAdapter {
