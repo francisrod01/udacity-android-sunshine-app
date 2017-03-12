@@ -126,6 +126,7 @@ public class WeatherProvider extends ContentProvider {
      */
     @Override
     public boolean onCreate() {
+        mOpenHelper = new WeatherDbHelper(getContext());
         return true;
     }
 
@@ -175,11 +176,27 @@ public class WeatherProvider extends ContentProvider {
                 break;
             // "weather"
             case WEATHER:
-                retCursor = null;
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        WeatherEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             // "location"
             case LOCATION:
-                retCursor = null;
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        LocationEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
