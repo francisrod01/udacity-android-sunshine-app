@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.test.AndroidTestCase;
 
 import com.example.android.sunshine.app.FetchWeatherTask;
-import com.example.android.sunshine.app.ForecastFragment;
 import com.example.android.sunshine.app.data.WeatherContract.LocationEntry;
 
 /**
@@ -31,7 +30,7 @@ public class TestFetchWeatherTask extends AndroidTestCase {
                 LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
                 new String[]{ADD_LOCATION_SETTING});
 
-        FetchWeatherTask fwt = new FetchWeatherTask(getContext(), null);
+        FetchWeatherTask fwt = new FetchWeatherTask(getContext());
         long locationId = fwt.addLocation(ADD_LOCATION_SETTING, ADD_LOCATION_CITY,
                 ADD_LOCATION_LAT, ADD_LOCATION_LON);
 
