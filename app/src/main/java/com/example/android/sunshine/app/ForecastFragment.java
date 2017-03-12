@@ -54,7 +54,7 @@ public class ForecastFragment extends Fragment
             LocationEntry.COLUMN_COORD_LONG
     };
 
-    // There indices are tied to FORECAST_COLUMNS. If FORECAST_COLUMNS changes, these must change.
+    // These indices are tied to FORECAST_COLUMNS. If FORECAST_COLUMNS changes, these must change.
     static final int COL_WEATHER_ID = 0;
     static final int COL_WEATHER_DATE = 1;
     static final int COL_WEATHER_DESC = 2;
