@@ -68,7 +68,7 @@ public class DetailFragment extends Fragment
     public static final int COL_WEATHER_PRESSURE = 6;
     public static final int COL_WEATHER_WIND_SPEED = 7;
     public static final int COL_WEATHER_DEGREES = 8;
-    public static final int COL_WEATHER_CONDITION_ID = 8;
+    public static final int COL_WEATHER_CONDITION_ID = 9;
 
     private ImageView mIconView;
     private TextView mFriendlyDateView;
