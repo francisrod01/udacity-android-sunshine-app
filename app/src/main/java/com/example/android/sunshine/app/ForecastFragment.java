@@ -1,6 +1,5 @@
 package com.example.android.sunshine.app;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -67,6 +66,20 @@ public class ForecastFragment extends Fragment
 
     ForecastAdapter mForecastAdapter;
 
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement: This mechanism allows activities to be notified of item
+     * selections.
+     */
+    interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         *
+         * @param dateUri
+         */
+        void onItemSelected(Uri dateUri);
+    }
+
     public ForecastFragment() {
     }
 
@@ -117,10 +130,9 @@ public class ForecastFragment extends Fragment
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(WeatherEntry.buildWeatherLocationWithDate(
+                    ((Callback) getActivity()).onItemSelected(
+                            WeatherEntry.buildWeatherLocationWithDate(
                                     locationSetting, cursor.getLong(COL_WEATHER_DATE)));
-                    startActivity(intent);
                 }
             }
         });
