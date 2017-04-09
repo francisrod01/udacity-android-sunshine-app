@@ -80,6 +80,13 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif-condensed"
                 android:textAppearance="?android:textAppearanceLarge" />
+
+            <!-- My custom compass view. -->
+            <com.example.android.sunshine.app.widgets.CompassView
+                android:id="@+id/compass_view"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="16dp" />
         </LinearLayout>
 
         <LinearLayout

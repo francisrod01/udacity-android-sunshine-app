@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.data.WeatherContract.WeatherEntry;
+import com.example.android.sunshine.app.widgets.CompassView;
 
 /**
  * Created by Francis Rodrigues on 3/21/17.
@@ -82,6 +83,7 @@ public class DetailFragment extends Fragment
     private TextView mHumidityView;
     private TextView mWindView;
     private TextView mPressureView;
+    private CompassView mCompassView;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -108,6 +110,9 @@ public class DetailFragment extends Fragment
         mHumidityView = (TextView) rootView.findViewById(R.id.detail_humidity_textview);
         mWindView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
         mPressureView = (TextView) rootView.findViewById(R.id.detail_pressure_textview);
+
+        mCompassView = (CompassView) rootView.findViewById(R.id.compass_view);
+        mCompassView.setVisibility(View.INVISIBLE);
 
         return rootView;
     }
@@ -225,6 +230,10 @@ public class DetailFragment extends Fragment
         float windSpeedStr = data.getFloat(COL_WEATHER_WIND_SPEED);
         float windDirStr = data.getFloat(COL_WEATHER_DEGREES);
         mWindView.setText(Utility.getFormattedWind(getActivity(), windSpeedStr, windDirStr));
+
+        // Set wind direction is custom view.
+        mCompassView.setVisibility(View.VISIBLE);
+        mCompassView.update(windDirStr);
 
         // Read pressure from cursor and update view.
         float pressure = data.getFloat(COL_WEATHER_PRESSURE);
