@@ -234,6 +234,7 @@ public class DetailFragment extends Fragment
         // Set wind direction is custom view.
         mCompassView.setVisibility(View.VISIBLE);
         mCompassView.update(windDirStr);
+        mCompassView.setContentDescription(description);
 
         // Read pressure from cursor and update view.
         float pressure = data.getFloat(COL_WEATHER_PRESSURE);
