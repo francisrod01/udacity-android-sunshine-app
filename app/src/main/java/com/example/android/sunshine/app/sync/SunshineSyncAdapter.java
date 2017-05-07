@@ -2,12 +2,15 @@ package com.example.android.sunshine.app.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
@@ -16,10 +19,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.format.Time;
 import android.util.Log;
 
 import com.example.android.sunshine.app.BuildConfig;
+import com.example.android.sunshine.app.MainActivity;
 import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.Utility;
 import com.example.android.sunshine.app.data.WeatherContract.LocationEntry;
@@ -54,7 +60,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final int WEATHER_NOTIFICATION_ID = 3004;
 
     // Notification data will be pulled from the database. Add projection.
-    private static final String[] NOTIFY_WEATHER_PROJECTION = new String[] {
+    private static final String[] NOTIFY_WEATHER_PROJECTION = new String[]{
             WeatherEntry.COLUMN_WEATHER_ID,
             WeatherEntry.COLUMN_MAX_TEMP,
             WeatherEntry.COLUMN_MIN_TEMP,
@@ -488,8 +494,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         Utility.formatTemperature(context, high),
                         Utility.formatTemperature(context, low));
 
-                // @TODO Build our notification here.
-                //
+                // Build our notification here.
+                buildNotification(context, iconId, title, contentText);
 
                 // Refreshing last sync.
                 SharedPreferences.Editor editor = prefs.edit();
@@ -498,5 +504,49 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             }
             cursor.close();
         }
+    }
+
+    /**
+     * Build your notification here.
+     *
+     * @param context
+     * @param iconId
+     * @param title
+     * @param contentText
+     */
+    private void buildNotification(Context context, int iconId, String title, String contentText) {
+        // NotificationCompatBuilder is a very convenient way to build backward-compatible
+        // notifications. Just throw in some data.
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(iconId)
+                .setContentTitle(title)
+                .setContentText(contentText);
+
+        // Make something interesting happen when the user clicks on the notification.
+        // In this case, opening the app is sufficient.
+        Intent resultIntent = new Intent(getContext(), MainActivity.class);
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+
+        // Adds the back stack for the Intent (but not the Intent itself).
+        stackBuilder.addParentStack(MainActivity.class);
+
+        // Adds the Intent that starts the Activity to the top of the stack.
+        stackBuilder.addNextIntent(resultIntent);
+
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        // Call to NotificationManager now.
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // WEATHER_NOTIFICATION_ID allows you to update the notification later on.
+        mNotificationManager.notify(WEATHER_NOTIFICATION_ID, mBuilder.build());
     }
 }
