@@ -465,6 +465,17 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         Context context = getContext();
         // Checking the last update and notify if it' the first of the day.
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // Grabs the preference to check notifications are on/off.
+        String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
+        boolean displayNotifications = prefs.getBoolean(displayNotificationsKey,
+                Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
+
+        // Check if notifications are disabled.
+        if (!displayNotifications) {
+            return;
+        }
+
         String lastNotificationKey = context.getString(R.string.pref_last_notification);
         long lastSync = prefs.getLong(lastNotificationKey, 0);
 
